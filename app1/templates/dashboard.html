@@ -1,0 +1,95 @@
+
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title>DASHBOARD </title>
+{% endblock %}
+
+{% block css %} 
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %} 
+
+    <!-- Account Overview -->
+    <div class="card balance-card p-4 shadow-sm">
+        <h6>Account Number</h6>
+        <h5> {{ customer.account_number }}</h5>
+        <hr class="bg-light">
+        <h6>Available Balance</h6>
+        <h2>₦ {{  customer.balance }}</h2>
+    </div>
+
+    <!-- Action Cards -->
+    <div class="row mt-4 g-3">
+
+        <div class="col-6 col-md-3">
+            <a href='{% url "user-transfer-page" %}' style='text-decoration : none'>
+                <div class="card action-card p-3 text-center shadow-sm">
+                    <i class="bi bi-send fs-2 text-success"></i>
+                    <p class="mt-2 mb-0">Transfer</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <a href='/deposit/' style='text-decoration : none'>
+                <div class="card action-card p-3 text-center shadow-sm quick-card">
+                    <i class="bi bi-wallet2 fs-2 text-primary"></i>
+                    <p class="mt-2 mb-0">Deposit</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-6 col-md-3">
+             <a href='{% url "user-pin-page" %}' style='text-decoration : none'>
+                <div class="card action-card p-3 text-center shadow-sm quick-card">
+                    <i class="bi bi-lock fs-2 text-warning"></i>
+                    <p class="mt-2 mb-0">Set / Change PIN</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <a href='{% url "user-transaction-page" %}' style='text-decoration : none'>
+                <div class="card action-card p-3 text-center shadow-sm">
+                    <i class="bi bi-clock-history fs-2 text-danger"></i>
+                    <p class="mt-2 mb-0">Transactions</p>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Recent Transactions -->
+    <div class="mt-5">
+        <h5 class="mb-3">Recent Transactions</h5>
+     
+      <h4>Transaction History</h4>
+
+      {% for record in transactions %}
+         <div class="card transaction-card p-3 mb-2 shadow-sm">
+            <div class="d-flex justify-content-between">
+              <div>
+                {{ record.sender.user.email | capfirst  }} made a {{ record.transaction_type }} transaction to {{  record.receiver.user.email }} <br />
+                <small>{{ record.date | date:"D d M Y"}}</small>
+              </div>
+              
+              
+            </div>
+          </div>
+      
+          {% empty %}
+            <p> No recent transaction </p>
+        {% endfor %}
+
+        {% block js %} 
+          <script src='{% static "js/test.js" %}' type="text/javascript"></script>
+        {% endblock %}
+    {%endblock%}
+
+
+    
+    

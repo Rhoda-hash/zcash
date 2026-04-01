@@ -1,0 +1,71 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    <title>TRANSACTION </title>
+{% endblock %}
+
+
+{% block content %} 
+
+    <style>
+      body {
+        background: #f4f6f9;
+      }
+
+      .transaction-card {
+        border-radius: 12px;
+      }
+
+      .credit {
+        color: green;
+      }
+
+      .debit {
+        color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container mt-4">
+     
+      {% if error %}
+        <div>
+            <p style='color:red'>  {{ error }}</p>
+        </div>
+      {% endif %}
+
+       {% if success %}
+        <div>
+            <p style='color: green; background:yellow'>  {{ success }}</p>
+        </div>
+      {% endif %}
+      
+
+      {% if transaction %}
+        <h4>Transaction Detail  #{{ transaction.id }}</h4>
+         <div class="card transaction-card p-3 mb-2 shadow-sm">
+            <div class="d-flex justify-content-between">
+              <div>
+                {{ transaction.sender.user.email | capfirst  }} made a {{ transaction.transaction_type }} transaction to {{  transaction.receiver.user.email }} <br />
+                <small>{{ transaction.date | date:"D d M Y"}}</small>
+              </div>
+              
+              {% if transaction.transaction_type == 'transfer' %}
+              <div class="debit">- ₦{{ transaction.amount }}</div>
+              {% elif transaction.transaction_type == 'withdraw' %}
+              <div class="debit">- ₦{{ transaction.amount }}</div>
+              {% else %}
+              <div class="credit">+ ₦{{ transaction.amount }}</div>
+              {% endif %}
+            </div>
+          </div>
+      
+          {% else %}
+          <p> No Transaction reference found </p>
+      {% endif %}
+
+      
+    </div>
+
+{% endblock %}

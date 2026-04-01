@@ -1,0 +1,76 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    <title>Search Account</title>
+{% endblock %}
+
+
+{% block content %} 
+    
+      <div class="card user-card p-4 shadow-sm">
+        <h5>Search Account</h5>
+        <form method="GET">
+          <input
+            type="text"
+            class="form-control mb-3"
+            placeholder="Enter account number"
+            name="account_number"
+          />
+
+          <button class="btn btn-success w-100 mb-3" type="submit">
+            Search
+          </button>
+        </form>
+      </div>
+
+
+        {% if error %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+        {% endif %}
+
+      <!-- SEARCH Result -->
+
+      {% if account_found %}
+      <div class="card user-card p-3 shadow-sm" style="margin-top: 10px">
+        <h6>Account Found ✅</h6>
+
+        <p>Name: {{ customer.user.username }}</p>
+
+        <p>Account Number: {{ customer.account_number }}</p>
+
+        {% if same_user %}
+        <p>this is your account hence can not transfer to yourself</p>
+        {% else %}
+        <a
+          href="/transfer?account_number={{customer.account_number}}"
+          class="btn btn-primary w-100"
+        >
+          Proceed to Transfer
+        </a>
+        {% endif %}
+      </div>
+
+      {% elif account_found == False %}
+      <div
+        class="card user-card p-3 shadow-sm"
+        style="margin-top: 10px; text-align: center"
+      >
+        <h4>
+          Account not Found
+          <span
+            style="
+              color: red;
+              filter: drop-shadow(1px, 1px, 4px, rgba(12, 12, 12, 0.3));
+            "
+          >
+            X
+          </span>
+        </h4>
+      </div>
+
+      {% endif %}
+    
+
+    {% endblock %}

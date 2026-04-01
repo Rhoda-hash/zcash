@@ -1,0 +1,148 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    <title>TRANSFER </title>
+{% endblock %}
+
+
+{% block content %} 
+
+    <style>
+      body {
+        background-color: #f4f6f9;
+      }
+
+      .navbar {
+        background: linear-gradient(90deg, #1cc88a, #17a673);
+      }
+
+      .transfer-card {
+        border-radius: 15px;
+      }
+
+      .form-control {
+        border-radius: 10px;
+        height: 50px;
+      }
+
+      .btn-transfer {
+        background: linear-gradient(90deg, #4e73df, #1cc88a);
+        border: none;
+        height: 50px;
+        border-radius: 10px;
+        color: white;
+        font-weight: bold;
+      }
+
+      .btn-transfer:hover {
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark p-3">
+      <div class="container-fluid">
+        <a href="dashboard.html" class="navbar-brand">
+          <i class="bi bi-arrow-left"></i> Transfer Money
+        </a>
+      </div>
+    </nav>
+
+    <div class="container mt-5" novalidatemethod="POST">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card transfer-card shadow-sm p-4">
+            <h4 class="mb-4 text-center">Send Money</h4>
+
+            <form method="POST">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label class="form-label">Receiver Account Number</label>
+
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-person"></i>
+                  </span>
+
+                  {% if account_number %}
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter account number"
+                    name="account_number"
+                    required
+                    value="{{ account_number }}"
+                  />
+                  {% else %}
+                    <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter account number"
+                    name="account_number"
+                    required/>
+                  {% endif %}
+
+                </div>
+
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Amount (₦)</label>
+
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-cash"></i>
+                  </span>
+
+                  <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Enter amount"
+                    name="amount"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label">Enter PIN</label>
+
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-lock"></i>
+                  </span>
+
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Enter your PIN"
+                    name="pin"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button class="btn btn-transfer w-100">
+                <i class="bi bi-send"></i> Send Money
+              </button>
+            </form>
+          </div>
+        </div>
+
+      {% if error %}
+      <div class="card user-card p-3 shadow-sm" style="margin-top: 10px;margin-bottom: 30px;text-align: center;color: darkred;">
+        <h4>
+          {{ error }}
+          <span style="
+              color: red;
+              filter: drop-shadow(1px, 1px, 4px, rgba(12, 12, 12, 0.3));
+            ">
+            X
+          </span>
+        </h4>
+      </div>
+      {% endif %}
+      </div>
+    </div>
+
+{% endblock %}

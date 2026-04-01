@@ -1,0 +1,78 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    <title>DEPOSIT</title>
+{% endblock %}
+
+
+{% block content %} 
+
+  <style>
+    .btn-fintech{
+      background: linear-gradient(90deg, #1cc88a, #17a673);
+      color: white;
+    }
+  </style>
+
+    <div class="container mt-5">
+      <div class="card card-style p-4 shadow-sm">
+        <h4>Load Voucher</h4>
+        <div>
+             {% if error %}
+                <div>
+                    <p style='color:red'>  {{ error }}</p>
+                </div>
+            {% endif %}
+
+             {% if success %}
+                <div>
+                    <p style='color: green; background:yellow'>  {{ success }}</p>
+                </div>
+            {% endif %}
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+          <div class="mb-3">
+            <label>Voucher Code</label>
+
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter voucher code"
+              name='voucher_code'
+              value="{{ voucher_code|default:'' }}"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label>Your PIN</label>
+
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Enter PIN"
+              name='pin'
+              value="{{ pin|default:'' }}"
+            />
+          </div>
+
+          {% if show_confirmation %}
+          <div class="mb-3">
+            <label>Confirm Your Name: {{ user_name }}</label>
+            <p>Your confirmation code is: <strong>{{ confirmation_code }}</strong></p>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter confirmation code"
+              name='confirmation_code'
+            />
+          </div>
+          {% endif %}
+          
+          <button class="btn btn-fintech w-100">{% if show_confirmation %}Confirm Deposit{% else %}Top up{% endif %}</button>
+        </form>
+      </div>
+    </div>
+
+    {% endblock %}
+
